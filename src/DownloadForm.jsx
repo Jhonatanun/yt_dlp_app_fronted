@@ -1,29 +1,29 @@
 import { useState } from "react";
+import axios from "axios";
 
 const DownloadForm = () => {
   const [url, setUrl] = useState("");
   const [format, setFormat] = useState("mp4");
   const [quality, setQuality] = useState("720");
+  const [message, setMessage] = useState("");
 
   const handleDownload = async (e) => {
     e.preventDefault();
 
     if (!url) {
-      alert("Por favor ingresa una URL válida");
+      setMessage("Ingrese una URL valida");
       return;
     }
 
-    const response = await fetch("http://localhost:5000/download", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url, format, quality }),
-    });
+    try {
+      setMessage("Iniciando Descarga")
+      const response = await axios.post("http://localhost:5000/download", { url, format, quality });
+      setMessage(response.data.message);
+  } catch (error) {
+      setMessage("Error: " + error.response.data.error);
+  }
 
-    const data = await response.json();
-    console.log(data);
-    alert(data.message || "Descarga iniciada");
+    
   };
 
   return (
@@ -77,6 +77,7 @@ const DownloadForm = () => {
         >
           Descargar
         </button>
+        <p>{message}</p>
       </form>
     </div>
   );
