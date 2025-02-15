@@ -11,74 +11,73 @@ const DownloadForm = () => {
     e.preventDefault();
 
     if (!url) {
-      setMessage("Ingrese una URL valida");
+      setMessage("Ingrese una URL válida");
       return;
     }
 
     try {
-      setMessage("Iniciando Descarga")
+      setMessage("Iniciando Descarga...");
       const response = await axios.post("http://localhost:5000/download", { url, format, quality });
       setMessage(response.data.message);
-  } catch (error) {
+    } catch (error) {
       setMessage("Error: " + error.response.data.error);
-  }
-
-    
+    }
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-800 text-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Descargar Video de YouTube</h2>
-      <form onSubmit={handleDownload}>
-        {/* Input URL */}
-        <label className="block mb-2">
-          URL del Video:
-          <input
-            type="text"
-            className="w-full p-2 mt-1 border rounded text-black"
-            placeholder="https://www.youtube.com/watch?v=XXXXX"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </label>
+    <div className="container p-4 text-white rounded shadow w-50">
+      <div className="container mt-5">
+        <div className="card shadow-lg p-4">
+          <h2 className="card-title text-center mb-4">Descargar Video de YouTube</h2>
+          <form onSubmit={handleDownload}>
+            {/* Input URL */}
+            <div className="mb-3">
+              <label className="form-label">URL del Video:</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="https://www.youtube.com/watch?v=XXXXX"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            </div>
 
-        {/* Selección de Formato */}
-        <label className="block mb-2">
-          Formato:
-          <select
-            className="w-full p-2 mt-1 border rounded text-black"
-            value={format}
-            onChange={(e) => setFormat(e.target.value)}
-          >
-            <option value="mp4">MP4</option>
-            <option value="webm">WebM</option>
-            <option value="mkv">MKV</option>
-          </select>
-        </label>
+            {/* Selección de Formato */}
+            <div className="mb-3">
+              <label className="form-label">Formato:</label>
+              <select
+                className="form-select"
+                value={format}
+                onChange={(e) => setFormat(e.target.value)}
+              >
+                <option value="mp4">MP4</option>
+                <option value="webm">WebM</option>
+                <option value="mkv">MKV</option>
+              </select>
+            </div>
 
-        {/* Selección de Calidad */}
-        <label className="block mb-4">
-          Calidad:
-          <select
-            className="w-full p-2 mt-1 border rounded text-black"
-            value={quality}
-            onChange={(e) => setQuality(e.target.value)}
-          >
-            <option value="360">360p</option>
-            <option value="480">480p</option>
-            <option value="720">720p</option>
-            <option value="1080">1080p</option>
-          </select>
-        </label>
+            {/* Selección de Calidad */}
+            <div className="mb-3">
+              <label className="form-label">Calidad:</label>
+              <select
+                className="form-select"
+                value={quality}
+                onChange={(e) => setQuality(e.target.value)}
+              >
+                <option value="360">360p</option>
+                <option value="480">480p</option>
+                <option value="720">720p</option>
+                <option value="1080">1080p</option>
+              </select>
+            </div>
 
-        <button
-          type="submit"
-          className="w-full bg-yellow-500 text-black font-bold p-2 rounded hover:bg-yellow-600"
-        >
-          Descargar
-        </button>
-        <p>{message}</p>
-      </form>
+            <button type="submit" className="btn btn-warning w-100">
+              Descargar
+            </button>
+          </form>
+          {message && <p className="mt-3 text-center">{message}</p>}
+        </div>
+      </div>
     </div>
   );
 };
