@@ -6,9 +6,11 @@ const DownloadForm = () => {
   const [format, setFormat] = useState("mp4");
   const [quality, setQuality] = useState("720");
   const [message, setMessage] = useState("");
+  const [downloadLink, setDownloadLink] = useState(null);
 
   const handleDownload = async (e) => {
     e.preventDefault();
+    setDownloadLink(null); // Resetear el link antes de la nueva descarga
 
     if (!url) {
       setMessage("Ingrese una URL válida");
@@ -17,8 +19,15 @@ const DownloadForm = () => {
 
     try {
       setMessage("Iniciando Descarga...");
-      const response = await axios.post("http://localhost:5000/download", { url, format, quality });
+      const response = await axios.post("https://yt-dlp-backend-ydre.onrender.com/download", { url, format, quality });
       setMessage(response.data.message);
+
+      const data = await response.json();
+      if (data.success && data.downloadUrl) {
+        setDownloadLink(data.downloadUrl);
+      } else {
+        alert("Error al descargar el video");
+      }
     } catch (error) {
       setMessage("Error: " + error.response.data.error);
     }
@@ -76,6 +85,15 @@ const DownloadForm = () => {
             </button>
           </form>
           {message && <p className="mt-3 text-center">{message}</p>}
+
+          {downloadLink && (
+            <div>
+              <p>Tu video está listo para descargar:</p>
+              <a href={downloadLink} download="video.mp4">
+                Descargar Video
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>
