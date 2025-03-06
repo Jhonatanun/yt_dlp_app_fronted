@@ -18,7 +18,7 @@ const DownloadForm = () => {
     }
     try {
     setMessage("Iniciando extracion del video...");
-    const response = await axios.post("https://yt-dlp-backend-ydre.onrender.com/download", {
+    const response = await axios.post("http://localhost:5000/download", {
       url,
       format,
       quality
@@ -68,6 +68,7 @@ const DownloadForm = () => {
       <div className="container mt-5">
         <div className="card shadow-lg p-4">
           <h2 className="card-title text-center mb-4">Descargar Video de YouTube</h2>
+          <h6>Sitios Web: Vimeo, Daylimotion, TED</h6>
           <form onSubmit={handleDownload}>
             {/* Input URL */}
             <div className="mb-3">
