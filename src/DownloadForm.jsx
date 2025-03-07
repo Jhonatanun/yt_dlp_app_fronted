@@ -64,11 +64,11 @@ const DownloadForm = () => {
   
   
   return (
-    <div className="container p-4 text-white rounded shadow w-100 w-md-75 w-lg-50">
+    <div className="container p-4 text-white rounded shadow w-75 w-md-50 w-lg-45">
       <div className="container mt-5">
         <div className="card shadow-lg p-4">
           <h2 className="card-title text-center mb-4">Descargar Video de YouTube</h2>
-          <h6>Sitios Web: Vimeo, Daylimotion, TED</h6>
+          <h6>Sitios Web: Vimeo, Daylimotion, TED, Soundcloud</h6>
           <form onSubmit={handleDownload}>
             {/* Input URL */}
             <div className="mb-3">
